@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <h2 id="my-title">My shopping cart</h2>
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button onclick="handleProductChange('phone',false)" class="btn btn-default"><i class="fas fa-minus"></i></button>  
+                           <input  id="phone-count" type="number" min="0" class="form-control text-center" value="1">
+                           <button onclick="handleProductChange('phone',true)" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <!-- <button onclick="handleProductUpdate('phone',true)" class="btn btn-default"><i class="fas fa-plus"></i></button> -->
+                           <!-- <button id="phone-increase" class="btn btn-default"><i class="fas fa-plus"></i></button>     oporer golao eivabe id diye kora cilow -->
+                        </div>
+                        <h5 id="phone-total">$1219</h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button onclick="handleProductChange ('case',false)" class="btn btn-default"><i class="fas fa-minus"></i></button>                     
+                           <input  id="case-count" type="number" min="0" class="form-control text-center" value="1">
+                           <button onclick="handleProductChange ('case',true)" class="btn btn-default"><i class="fas fa-plus"></i></button>  
+                           <!-- <button onclick="handleProductChange (true)" class="btn btn-default"><i class="fas fa-plus"></i></button>   -->
+                           <!-- <button id="case-increase" class="btn btn-default"><i class="fas fa-plus"></i></button>   oporer golao eivabe id diye kora cilow  -->
+                        </div>
+                        <h5 id="case-total">$59</h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8"> 
+                        <h5>Subtotal: </h5>
+                        <h5>Tax:</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5 id="total-price">$1,278</h5>
+                        <h5 id="tax-amount">$0</h5>
+                        <h5 id="grand-total">$1,278</h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+
+
+ <script>
+ 
+
+   ////  duplicate coding 2nd part eita diye dynamic vabe kaz 2ta kaz ke eksathe korbow korbo....
+     function handleProductChange (product,isIncrease) {
+      const productInput = document.getElementById(product + "-count");                 // case-count er case ke amra hard code a rakhbona product er sathe + kore dibo. prodct er sathe dash count dilei hoye jabe case-count.
+        const productCount = parseInt(productInput.value);                   
+       let productNewCount = productCount;                            
+       if (isIncrease == true) {
+         productNewCount = productCount + 1;
+       }
+       if (isIncrease == false && productCount > 0) {                
+         productNewCount = productCount - 1;
+       }
+       productInput.value = productNewCount;                     // jeheto product niye kaz korteci sei jai caseInput soriye productInput hobe sobgolote..
+        ///const caseTotal = caseNewCount * 59;                  // eitake case and phone er  jonno modify korbow ...
+       let productTotal = 0;
+       if (product == 'phone') {
+          productTotal = productNewCount * 1219;
+       }
+       if (product == 'case') {
+          productTotal = productNewCount * 59;
+       }
+        document.getElementById(product + "-total").innerText = '$' + productTotal;      // casetotal er poriborte productTotal hobe.
+
+        calculateTotal()              // nicher function dokiye dewa holow...
+     }
+
+     function calculateTotal() {
+       const phoneInput =  document.getElementById('phone-count');
+       const phoneCount = parseInt(phoneInput.value);
+
+       const caseInput = document.getElementById('case-count');
+       const caseCount = parseInt(caseInput.value);
+
+
+       const totalPrice = phoneCount * 1219 + caseCount * 59;
+       document.getElementById('total-price').innerText = '$' + totalPrice;     
+
+       const tax =  Math.round (totalPrice * 0.1);
+      document.getElementById('tax-amount').innerText = '$' + tax;
+
+      const grandTotal = totalPrice + tax;
+      document.getElementById('grand-total').innerText = '$' + grandTotal;
+     }
+
+
+ </script>
+
+
+</body>
+
+</html>
+
+<!-- kaz kore ... oporerta aro short kore dekhano holow::
+    <script>
+   // // first part duplicate coding...
+   function handleProductUpdate(isIncrease) {
+        const phoneInput = document.getElementById('phone-count');
+       const phoneCount = parseInt(phoneInput.value);
+     //   const newPhoneCount = phoneCount - 1;
+     let newPhoneCount = phoneCount;
+     if (isIncrease == true) {
+        newPhoneCount = phoneCount + 1;
+     }
+     if (isIncrease == false && phoneCount > 0 ) {
+        newPhoneCount = phoneCount - 1;
+        
+     }
+     
+       phoneInput.value = newPhoneCount;
+      const phoneTotal = newPhoneCount * 1219;
+      document.getElementById('phone-total').innerText = '$' + phoneTotal;
+     }
+  
+     ////  duplicate coding 2nd part....
+       function handleProductChange (isIncrease) {
+        const caseInput = document.getElementById("case-count");
+          const caseCount = parseInt(caseInput.value);
+         // const caseNewCount = caseCount - 1;                     
+         let caseNewCount = caseCount;                            
+         if (isIncrease == true) {
+           caseNewCount = caseCount + 1;
+         }
+         if (isIncrease == false && caseCount > 0) {                
+           caseNewCount = caseCount - 1;
+         }
+          caseInput.value = caseNewCount;
+          const caseTotal = caseNewCount * 59;
+          document.getElementById("case-total").innerText = '$' + caseTotal; 
+       }
+   </script> -->
+
+
+
+
+<!--  shohoz + shorcut simple codding part::: 
+   <script>  
+
+   // document.getElementById('phone-increase').addEventListener('click', function () {
+   //    handleProductUpdate(true)
+   // });
+   // document.getElementById('phone-decrease').addEventListener('click', function () {
+   //    handleProductUpdate(false)   
+   // });
+   
+   
+   // // first part duplicate coding...
+   function handleProductUpdate(isIncrease) {
+      const phoneInput = document.getElementById('phone-count');
+     const phoneCount = parseInt(phoneInput.value);
+   //   const newPhoneCount = phoneCount - 1;
+   let newPhoneCount = phoneCount;
+   if (isIncrease == true) {
+      newPhoneCount = phoneCount + 1;
+   }
+   if (isIncrease == false && phoneCount > 0 ) {
+      newPhoneCount = phoneCount - 1;
+      
+   }
+   
+     phoneInput.value = newPhoneCount;
+    const phoneTotal = newPhoneCount * 1219;
+    document.getElementById('phone-total').innerText = '$' + phoneTotal;
+   }
+   
+   
+    // // sohojer niyome..coding::: 
+   // document.getElementById('phone-increase').addEventListener('click', function () {                /// id add korte hobe nahoi kaz korbena...
+   //  const phoneInput = document.getElementById('phone-count');                                     /// id add korte hobe nahoi kaz korbena...
+   //  const phoneInput = document.getElementById('phone-count');                                     ///
+   // const phoneCount = parseInt(phoneInput.value);
+   // const newPhoneCount = phoneCount + 1;
+   // phoneInput.value = newPhoneCount;
+   // const phoneTotal = newPhoneCount * 1219;
+   // document.getElementById('phone-total').innerText = '$' + phoneTotal;
+   
+   // })
+   
+   // document.getElementById('phone-decrease').addEventListener('click', function () {             ///  id add korte hobe nahoi kaz korbena...
+   //  const phoneInput = document.getElementById('phone-count');                                  
+   //    const phoneInput = document.getElementById('phone-count');
+   //   const phoneCount = parseInt(phoneInput.value);
+   //   const newPhoneCount = phoneCount - 1;
+   //   phoneInput.value = newPhoneCount;
+   //  const phoneTotal = newPhoneCount * 1219;
+   //  document.getElementById('phone-total').innerText = '$' + phoneTotal;
+   
+      
+   // })
+   
+   
+   
+   
+   //  document.getElementById("case-increase").addEventListener('click', function () {
+   //         handleProductChange (true)                                                      // ei code just id er poriborte use kore aro short kore kora jai
+   //    });
+   //   document.getElementById('case-decrease').addEventListener('click', function () {
+   //         handleProductChange (false)                                                 // ei code just id er poriborte use kore aro short kore kora jai
+   //   });
+   
+   ////  duplicate coding....
+     function handleProductChange (isIncrease) {
+      const caseInput = document.getElementById("case-count");
+        const caseCount = parseInt(caseInput.value);
+       // const caseNewCount = caseCount - 1;                     // ei condition ta ke if else korbo..
+       let caseNewCount = caseCount;                            //  const er poriborte let use korbow bcz poriborton hobe tai.
+       if (isIncrease == true) {
+         caseNewCount = caseCount + 1;
+       }
+       if (isIncrease == false && caseCount > 0) {                 // && caseCount er mane hosse - er dike jabena.
+         caseNewCount = caseCount - 1;
+       }
+        caseInput.value = caseNewCount;
+        const caseTotal = caseNewCount * 59;
+        document.getElementById("case-total").innerText = '$' + caseTotal; 
+     }
+   
+   // // ager coding ...
+   //    document.getElementById("case-increase").addEventListener('click', function () {
+   //     const caseInput = document.getElementById("case-count");                             // button a giye id="case-count" diye kaz korate hobe
+   //     const caseCount = parseInt(caseInput.value);
+   //     const caseNewCount = caseCount + 1;
+   //     caseInput.value = caseNewCount;
+   //     const caseTotal = caseNewCount * 59;
+   //     document.getElementById("case-total").innerText = '$' + caseTotal;                /// id="case-total" likhe kaz korate hobe...$59 a giye abar likhte hobe
+   //    })
+   
+   //   document.getElementById('case-decrease').addEventListener('click', function () {     //// id='case-decrease' same likhte hobe na hoi kaz korbena
+   //      const caseInput = document.getElementById("case-count");
+   //      const caseCount = parseInt(caseInput.value);
+   //      const caseNewCount = caseCount - 1;
+   //      caseInput.value = caseNewCount;
+   //      const caseTotal = caseNewCount * 59;
+   //      document.getElementById("case-total").innerText = '$' + caseTotal;  
+   //   })
+   
+   </script> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+last update::
+<!-- <script>
+function increasePhoneCount(){
+         const phoneCountElement = document.getElementById('phone-count');
+         const phoneCount = phoneCountElement.value;
+         const newPhoneCount = parseInt(phoneCount) + 1;
+         phoneCountElement.value = newPhoneCount;
+         updatePhonePrice();
+      }
+      function decreasePhoneCount(){
+         const phoneCountElement = document.getElementById('phone-count');
+         const phoneCount = phoneCountElement.value;
+         const newPhoneCount = parseInt(phoneCount) - 1;
+         phoneCountElement.value = newPhoneCount;
+         updatePhonePrice();
+      }
+      function updatePhonePrice(){
+         const phoneCountElement = document.getElementById('phone-count');
+         const phoneCount = phoneCountElement.value;
+         const phonePrice = parseInt(phoneCount) * 1219;
+         const phonePriceElement = document.getElementById('phone-price');
+         phonePriceElement.innerText = '$' + phonePrice;
+         updateTotalPrice();
+      }
+      function increaseCaseCount(){
+         const phoneCountElement = document.getElementById('case-count');
+         const phoneCount = phoneCountElement.value;
+         const newPhoneCount = parseInt(phoneCount) + 1;
+         phoneCountElement.value = newPhoneCount;
+         updateCasePrice();
+      }
+      function decreaseCaseCount(){
+         const phoneCountElement = document.getElementById('case-count');
+         const phoneCount = phoneCountElement.value;
+         const newPhoneCount = parseInt(phoneCount) - 1;
+         phoneCountElement.value = newPhoneCount;
+         updateCasePrice();
+      }
+      function updateCasePrice(){
+         const phoneCountElement = document.getElementById('case-count');
+         const phoneCount = phoneCountElement.value;
+         const phonePrice = parseInt(phoneCount) * 59;
+         const phonePriceElement = document.getElementById('case-price');
+         phonePriceElement.innerText = '$' + phonePrice;
+         updateTotalPrice();
+      }
+
+      function updateTotalPrice(){
+         const phoneCount = document.getElementById('phone-count').value;
+         const caseCount = document.getElementById('case-count').value;
+         const totalPrice = parseInt(phoneCount) * 1219 + parseInt(caseCount) * 59;
+         
+         const taxAmount = (totalPrice / 100 * 10).toFixed(2); 
+         console.log(totalPrice, taxAmount);
+         const grandTotal = totalPrice + parseFloat(taxAmount);
+         
+         const totalPriceElement = document.getElementById('total-price');
+         totalPriceElement.innerText = '$' +  totalPrice;
+         const taxElement = document.getElementById('tax-amount');
+         taxElement.innerText = '$' +  taxAmount;
+         const grandTotalElement = document.getElementById('grand-total');
+         grandTotalElement.innerText = '$' +  grandTotal;
+      }
+   </script>   -->
